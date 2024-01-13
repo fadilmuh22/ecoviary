@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "557604831287",
+    "firebase_url": "https://ecoviary-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "ecoviary",
+    "storage_bucket": "ecoviary.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:557604831287:android:540ad2e2b065efc82abfb2",
+        "android_client_info": {
+          "package_name": "tech.rascent.ecoviary"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzUi6PJReqNorcIY0YPyDG_7KE7oNBWA4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
