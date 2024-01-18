@@ -1,7 +1,6 @@
 import 'package:ecoviary/pages/automation_page.dart';
 import 'package:ecoviary/pages/control_page.dart';
 import 'package:ecoviary/pages/home_page.dart';
-import 'package:ecoviary/pages/profile_page.dart';
 import 'package:flutter/material.dart';
 
 class MainTabPage extends StatefulWidget {
@@ -22,8 +21,6 @@ class _MainTabPageState extends State<MainTabPage> {
         return const ControlPage();
       case 2:
         return const AutomationPage();
-      case 3:
-        return const ProfilePage();
       default:
         return const HomePage();
     }
@@ -40,24 +37,21 @@ class _MainTabPageState extends State<MainTabPage> {
             _selectedIndex = index;
           });
         },
+        backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
         unselectedItemColor: Theme.of(context).colorScheme.onBackground,
         selectedItemColor: Theme.of(context).colorScheme.primary,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
+            icon: Icon(Icons.home_rounded),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings_outlined),
+            icon: Icon(Icons.settings_remote_rounded),
             label: 'Control',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings_ethernet),
             label: 'Automation',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
-            label: 'Profile',
           ),
         ],
       ),

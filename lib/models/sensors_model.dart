@@ -37,4 +37,8 @@ class Sensors {
       'date': date,
     };
   }
+
+  String getSensorDescription() {
+    return 'Normal';
+  }
 }

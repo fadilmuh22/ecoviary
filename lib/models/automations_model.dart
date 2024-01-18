@@ -1,8 +1,8 @@
 enum AutomationsStatus { initial, scheduled, started }
 
 class Automations {
-  final List<int> food;
-  final List<int> water;
+  final List<String> food;
+  final List<String> water;
   final List<bool> disinfectant;
   final int date;
   final AutomationsStatus status;
@@ -17,8 +17,8 @@ class Automations {
 
   factory Automations.defaultValues() {
     return Automations(
-      food: [1, 2, 3],
-      water: [1, 2, 3],
+      food: ['04:00', '12:00', '16:00'],
+      water: ['04:00', '08:00', '12:00', '16:00'],
       disinfectant: [false, false, false, false, false, false, false],
       date: DateTime.now().millisecondsSinceEpoch,
       status: AutomationsStatus.initial,
@@ -27,8 +27,8 @@ class Automations {
 
   factory Automations.fromJson(Map<String, dynamic> json) {
     return Automations(
-      food: json['food'].map<int>((e) => int.parse(e.toString())).toList(),
-      water: json['water'].map<int>((e) => int.parse(e.toString())).toList(),
+      food: json['food'].map<String>((e) => e as String).toList(),
+      water: json['water'].map<String>((e) => e as String).toList(),
       disinfectant: json['disinfectant'].map<bool>((e) => e as bool).toList(),
       date: json['date'],
       status: AutomationsStatus.values[json['status']],
@@ -41,7 +41,7 @@ class Automations {
       'water': water,
       'disinfectant': disinfectant,
       'date': date,
-      'status': status,
+      'status': status.index,
     };
   }
 }

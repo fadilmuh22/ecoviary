@@ -42,4 +42,14 @@ class Coops {
       'date': date,
     };
   }
+
+  @override
+  bool operator ==(dynamic other) =>
+      other != null &&
+      other is Coops &&
+      name == other.name &&
+      date == other.date;
+
+  @override
+  int get hashCode => Object.hash(name, date);
 }
