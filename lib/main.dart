@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-import 'package:ecoviary/pages/main_tab_page.dart';
-import 'package:ecoviary/services/realtime_database.dart';
+import 'package:ecoviary/ui/pages/main_tab_page.dart';
+import 'package:ecoviary/data/services/realtime_database.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await RealtimeDatabase.initialize();
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {

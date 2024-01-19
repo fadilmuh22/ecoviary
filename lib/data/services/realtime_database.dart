@@ -1,10 +1,10 @@
-import 'package:ecoviary/models/automations_model.dart';
 import 'package:firebase_database/firebase_database.dart';
 
-import 'package:ecoviary/models/controls_model.dart';
-import 'package:ecoviary/models/coops_model.dart';
-import 'package:ecoviary/models/sensors_model.dart';
-import 'package:ecoviary/models/users_model.dart';
+import 'package:ecoviary/data/models/automations_model.dart';
+import 'package:ecoviary/data/models/controls_model.dart';
+import 'package:ecoviary/data/models/coops_model.dart';
+import 'package:ecoviary/data/models/users_model.dart';
+import 'package:ecoviary/data/models/sensors_model.dart';
 
 enum Collections { users, sensors, controls, coops, automations }
 

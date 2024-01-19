@@ -1,6 +1,6 @@
-import 'package:ecoviary/pages/automation_page.dart';
-import 'package:ecoviary/pages/control_page.dart';
-import 'package:ecoviary/pages/home_page.dart';
+import 'package:ecoviary/ui/pages/automation_page.dart';
+import 'package:ecoviary/ui/pages/control_page.dart';
+import 'package:ecoviary/ui/pages/home_page.dart';
 import 'package:flutter/material.dart';
 
 class MainTabPage extends StatefulWidget {

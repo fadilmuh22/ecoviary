@@ -1,11 +1,12 @@
-import 'package:ecoviary/components/sensor_card.dart';
-import 'package:ecoviary/components/coop_card.dart';
-import 'package:ecoviary/components/coops_dropdown.dart';
-import 'package:ecoviary/models/coops_model.dart';
-import 'package:ecoviary/models/sensors_model.dart';
-import 'package:ecoviary/services/realtime_database.dart';
-import 'package:ecoviary/utils/utils.dart';
 import 'package:flutter/material.dart';
+
+import 'package:ecoviary/data/models/coops_model.dart';
+import 'package:ecoviary/data/models/sensors_model.dart';
+import 'package:ecoviary/data/services/realtime_database.dart';
+import 'package:ecoviary/ui/components/sensor_card.dart';
+import 'package:ecoviary/ui/components/coop_card.dart';
+import 'package:ecoviary/ui/components/coops_dropdown.dart';
+import 'package:ecoviary/utils/utils.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

@@ -1,5 +1,5 @@
-import 'package:ecoviary/models/coops_model.dart';
-import 'package:ecoviary/services/realtime_database.dart';
+import 'package:ecoviary/data/models/coops_model.dart';
+import 'package:ecoviary/data/services/realtime_database.dart';
 import 'package:flutter/material.dart';
 
 class CoopsDropdown extends StatefulWidget {

@@ -1,8 +1,9 @@
-import 'package:ecoviary/components/control_item.dart';
-import 'package:ecoviary/models/controls_model.dart';
-import 'package:ecoviary/services/realtime_database.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_database/firebase_database.dart';
+
+import 'package:ecoviary/data/services/realtime_database.dart';
+import 'package:ecoviary/data/models/controls_model.dart';
+import 'package:ecoviary/ui/components/control_item.dart';
 
 class ControlPage extends StatefulWidget {
   const ControlPage({super.key});
@@ -60,7 +61,7 @@ class _ControlPageState extends State<ControlPage>
       children: <Widget>[
         AppBar(
           title: const Text(
-            'Control System',
+            'Kontrol Sistem',
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,

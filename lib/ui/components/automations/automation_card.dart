@@ -1,15 +1,38 @@
-import 'package:ecoviary/models/automations_model.dart';
+import 'package:ecoviary/data/services/realtime_database.dart';
 import 'package:flutter/material.dart';
-import 'package:weekday_selector/weekday_selector.dart';
 import 'package:intl/intl.dart';
 
+import 'package:ecoviary/data/models/automations_model.dart';
+import 'package:weekday_selector/weekday_selector.dart';
+
 class AutomationCard extends StatelessWidget {
+  final Function(Automations) onEdit;
+
   const AutomationCard({
     super.key,
     required this.automation,
+    required this.onEdit,
   });
 
   final Automations automation;
+
+  void _handleDelete(BuildContext context) {
+    Collections.automations.ref.child(automation.id).remove().then((value) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Automation deleted'),
+        ),
+      );
+    }).catchError(
+      (error) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(error.toString()),
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +55,14 @@ class AutomationCard extends StatelessWidget {
                 ),
                 PopupMenuButton(
                   itemBuilder: (context) => [
-                    const PopupMenuItem(child: Text('Edit')),
-                    const PopupMenuItem(child: Text('Delete')),
+                    PopupMenuItem(
+                      onTap: () => onEdit(automation),
+                      child: const Text('Edit'),
+                    ),
+                    PopupMenuItem(
+                      onTap: () => _handleDelete(context),
+                      child: const Text('Delete'),
+                    ),
                   ],
                 ),
               ],

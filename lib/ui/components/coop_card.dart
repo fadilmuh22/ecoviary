@@ -1,4 +1,4 @@
-import 'package:ecoviary/models/coops_model.dart';
+import 'package:ecoviary/data/models/coops_model.dart';
 import 'package:flutter/material.dart';
 
 class CoopCard extends StatelessWidget {

@@ -1,7 +1,8 @@
-import 'package:ecoviary/models/users_model.dart';
-import 'package:ecoviary/services/realtime_database.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_database/firebase_database.dart';
+
+import 'package:ecoviary/data/models/users_model.dart';
+import 'package:ecoviary/data/services/realtime_database.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});

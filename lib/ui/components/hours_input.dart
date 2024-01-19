@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 class HoursInput extends StatefulWidget {
+  final List<TimeOfDay> hours;
   final Function(List<TimeOfDay>) onChange;
 
   const HoursInput({
     super.key,
+    required this.hours,
     required this.onChange,
   });
 
@@ -13,7 +15,10 @@ class HoursInput extends StatefulWidget {
 }
 
 class _HoursInputState extends State<HoursInput> {
-  List<TimeOfDay> hours = [];
+  @override
+  void initState() {
+    super.initState();
+  }
 
   Future<void> _displayTimePicker(BuildContext context) async {
     final TimeOfDay timeOfDay = TimeOfDay.now();
@@ -24,8 +29,7 @@ class _HoursInputState extends State<HoursInput> {
 
     if (time != null) {
       setState(() {
-        hours.add(time);
-        widget.onChange(hours);
+        widget.onChange([...widget.hours, time]);
       });
     }
   }
@@ -42,14 +46,14 @@ class _HoursInputState extends State<HoursInput> {
             alignment: WrapAlignment.center,
             spacing: 5.0,
             children: List<Widget>.generate(
-              hours.length,
+              widget.hours.length,
               (int index) {
                 return InputChip(
                   visualDensity: VisualDensity.comfortable,
-                  label: Text(hours[index].format(context)),
+                  label: Text(widget.hours[index].format(context)),
                   onDeleted: () {
                     setState(() {
-                      hours.removeAt(index);
+                      widget.hours.removeAt(index);
                     });
                   },
                 );
@@ -65,7 +69,7 @@ class _HoursInputState extends State<HoursInput> {
                     _displayTimePicker(context);
                   });
                 },
-                child: const Text('Add'),
+                child: const Text('Tambah'),
               ),
             ],
           )
