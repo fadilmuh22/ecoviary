@@ -1,4 +1,8 @@
+import 'package:ecoviary/data/providers/form_providers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/date_symbols.dart';
 import 'package:intl/intl.dart';
 
 import 'package:ecoviary/data/models/automations_model.dart';
@@ -6,7 +10,7 @@ import 'package:ecoviary/data/services/realtime_database.dart';
 import 'package:ecoviary/ui/components/hours_input.dart';
 import 'package:weekday_selector/weekday_selector.dart';
 
-class AutomationForm extends StatefulWidget {
+class AutomationForm extends ConsumerStatefulWidget {
   final Automations? automation;
 
   const AutomationForm({
@@ -15,10 +19,11 @@ class AutomationForm extends StatefulWidget {
   });
 
   @override
-  State<AutomationForm> createState() => _AutomationFormState();
+  ConsumerState<AutomationForm> createState() => _AutomationFormState();
 }
 
-class _AutomationFormState extends State<AutomationForm> {
+class _AutomationFormState extends ConsumerState<AutomationForm> {
+  Automations? _automation;
   final _dateController = TextEditingController();
 
   final List<TimeOfDay> _foodTimeList = [];
@@ -33,19 +38,23 @@ class _AutomationFormState extends State<AutomationForm> {
   }
 
   void _fillFields() {
-    if (widget.automation == null) return;
+    _automation =
+        widget.automation ?? ref.read(automationFormProvider).automation;
 
-    _foodTimeList.addAll(widget.automation!.food
+    if (_automation == null) {
+      return;
+    }
+
+    _foodTimeList.addAll(_automation!.food
         .map((e) => TimeOfDay.fromDateTime(
             DateFormat('dd MMMM yyyy, hh:mm').parse(e.toString())))
         .toList());
-    _waterTimeList.addAll(widget.automation!.water
+    _waterTimeList.addAll(_automation!.water
         .map((e) => TimeOfDay.fromDateTime(
             DateFormat('dd MMMM yyyy, hh:mm').parse(e.toString())))
         .toList());
-    _weekdayValues.addAll(widget.automation!.disinfectant);
-    _selectedDate =
-        DateTime.fromMillisecondsSinceEpoch(widget.automation!.date);
+    _weekdayValues.addAll(_automation!.disinfectant);
+    _selectedDate = DateTime.fromMillisecondsSinceEpoch(_automation!.date);
     _dateController.text = DateFormat('dd MMMM yyyy').format(_selectedDate!);
   }
 
@@ -196,6 +205,7 @@ class _AutomationFormState extends State<AutomationForm> {
                     const Text('Pemberian disinfektan dalam seminggu'),
                     const SizedBox(height: 8),
                     WeekdaySelector(
+                      shortWeekdays: dateTimeSymbolMap()['id'].SHORTWEEKDAYS,
                       onChanged: (int day) {
                         setState(() {
                           final index = day % 7;

@@ -1,5 +1,6 @@
 import 'package:ecoviary/data/services/realtime_database.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 
 import 'package:ecoviary/data/models/automations_model.dart';
@@ -104,6 +105,7 @@ class AutomationCard extends StatelessWidget {
             WeekdaySelector(
               onChanged: (value) {},
               values: automation.disinfectant,
+              shortWeekdays: dateTimeSymbolMap()['id'].SHORTWEEKDAYS,
             )
           ],
         ),
