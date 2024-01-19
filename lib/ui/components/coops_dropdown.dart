@@ -17,7 +17,7 @@ class _CoopsDropdownState extends State<CoopsDropdown> {
     return StreamBuilder(
         stream: Collections.coops.ref.onValue,
         builder: (context, snapshot) {
-          if (snapshot.hasData) {
+          if (snapshot.hasData && snapshot.data!.snapshot.value != null) {
             var coop = Coops.fromJson(
               Map<String, dynamic>.from(snapshot.data!.snapshot.value as Map),
             );

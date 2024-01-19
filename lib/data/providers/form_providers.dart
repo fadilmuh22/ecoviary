@@ -6,7 +6,7 @@ class AutomationFormNotifier extends ChangeNotifier {
   Automations? automation;
 
   void setAutomations(Automations automation) {
-    automation = automation;
+    this.automation = automation;
     notifyListeners();
   }
 }

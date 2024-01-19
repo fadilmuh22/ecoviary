@@ -19,7 +19,7 @@ class _ProfilePageState extends State<ProfilePage> {
         StreamBuilder<DatabaseEvent>(
           stream: Collections.users.ref.onValue,
           builder: (context, snapshot) {
-            if (snapshot.hasData) {
+            if (snapshot.hasData && snapshot.data!.snapshot.value != null) {
               var user = Users.fromJson(Map<String, dynamic>.from(
                   snapshot.data!.snapshot.value as Map));
               return Form(

@@ -15,9 +15,35 @@ class HoursInput extends StatefulWidget {
 }
 
 class _HoursInputState extends State<HoursInput> {
+  ScrollController? _scrollController;
+
+  _scrollListener() {
+    print('scrolling');
+    if (_scrollController == null) return;
+
+    if (_scrollController!.offset >=
+            _scrollController!.position.maxScrollExtent &&
+        !_scrollController!.position.outOfRange) {
+      print('react the bottom');
+    }
+    if (_scrollController!.offset <=
+            _scrollController!.position.minScrollExtent &&
+        !_scrollController!.position.outOfRange) {
+      print('react the top');
+    }
+  }
+
   @override
   void initState() {
+    _scrollController = ScrollController();
+    _scrollController!.addListener(_scrollListener);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _scrollController?.dispose();
   }
 
   Future<void> _displayTimePicker(BuildContext context) async {
@@ -30,6 +56,13 @@ class _HoursInputState extends State<HoursInput> {
     if (time != null) {
       setState(() {
         widget.onChange([...widget.hours, time]);
+        Future.delayed(const Duration(microseconds: 100), () {
+          _scrollController?.animateTo(
+            _scrollController!.position.maxScrollExtent + 100,
+            curve: Curves.easeOut,
+            duration: const Duration(milliseconds: 150),
+          );
+        });
       });
     }
   }
@@ -38,7 +71,9 @@ class _HoursInputState extends State<HoursInput> {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 48,
+      width: 300,
       child: ListView(
+        controller: _scrollController,
         shrinkWrap: true,
         scrollDirection: Axis.horizontal,
         children: <Widget>[
@@ -63,6 +98,7 @@ class _HoursInputState extends State<HoursInput> {
           const SizedBox(width: 10),
           Row(
             children: [
+              SizedBox(width: widget.hours.isEmpty ? 100 : 0),
               ElevatedButton(
                 onPressed: () {
                   setState(() {

@@ -1,7 +1,7 @@
 enum AutomationsStatus { initial, scheduled, started }
 
 class Automations {
-  final String id;
+  String id;
   final List<String> food;
   final List<String> water;
   final List<bool> disinfectant;
@@ -19,7 +19,7 @@ class Automations {
 
   factory Automations.defaultValues() {
     return Automations(
-      id: 'default-automations',
+      id: '',
       food: ['04:00', '12:00', '16:00'],
       water: ['04:00', '08:00', '12:00', '16:00'],
       disinfectant: [false, false, false, false, false, false, false],

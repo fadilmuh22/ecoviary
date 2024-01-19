@@ -1,3 +1,4 @@
+import 'package:ecoviary/data/providers/form_providers.dart';
 import 'package:ecoviary/data/providers/ui_providers.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +17,7 @@ class AutomationList extends ConsumerWidget {
     return StreamBuilder(
       stream: Collections.automations.ref.onValue,
       builder: (context, snapshot) {
-        if (snapshot.hasData) {
+        if (snapshot.hasData && snapshot.data!.snapshot.value != null) {
           var automations = Map<String, dynamic>.from(
               snapshot.data!.snapshot.value as Map<dynamic, dynamic>);
 
@@ -31,9 +32,14 @@ class AutomationList extends ConsumerWidget {
                 }),
               );
 
+              if (automation.id == '') {
+                automation.id = automations.keys.elementAt(index);
+              }
+
               return AutomationCard(
                 automation: automation,
                 onEdit: (value) {
+                  ref.read(automationFormProvider).setAutomations(value);
                   ref.read(automationsTabIndexProvider).changeTab(1);
                 },
               );

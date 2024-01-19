@@ -2,7 +2,6 @@ import 'package:ecoviary/data/providers/form_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:intl/date_symbols.dart';
 import 'package:intl/intl.dart';
 
 import 'package:ecoviary/data/models/automations_model.dart';
@@ -26,34 +25,33 @@ class _AutomationFormState extends ConsumerState<AutomationForm> {
   Automations? _automation;
   final _dateController = TextEditingController();
 
-  final List<TimeOfDay> _foodTimeList = [];
-  final List<TimeOfDay> _waterTimeList = [];
-  final _weekdayValues = List.filled(7, false);
+  List<TimeOfDay> _foodTimeList = [];
+  List<TimeOfDay> _waterTimeList = [];
+  List<bool> _weekdayValues = List.filled(7, false);
   DateTime? _selectedDate;
 
   @override
   void initState() {
     super.initState();
+    _automation =
+        widget.automation ?? ref.read(automationFormProvider).automation;
     _fillFields();
   }
 
   void _fillFields() {
-    _automation =
-        widget.automation ?? ref.read(automationFormProvider).automation;
-
     if (_automation == null) {
       return;
     }
 
     _foodTimeList.addAll(_automation!.food
-        .map((e) => TimeOfDay.fromDateTime(
-            DateFormat('dd MMMM yyyy, hh:mm').parse(e.toString())))
+        .map((e) =>
+            TimeOfDay.fromDateTime(DateFormat('hh:mm').parse(e.toString())))
         .toList());
     _waterTimeList.addAll(_automation!.water
-        .map((e) => TimeOfDay.fromDateTime(
-            DateFormat('dd MMMM yyyy, hh:mm').parse(e.toString())))
+        .map((e) =>
+            TimeOfDay.fromDateTime(DateFormat('hh:mm').parse(e.toString())))
         .toList());
-    _weekdayValues.addAll(_automation!.disinfectant);
+    _weekdayValues = _automation!.disinfectant;
     _selectedDate = DateTime.fromMillisecondsSinceEpoch(_automation!.date);
     _dateController.text = DateFormat('dd MMMM yyyy').format(_selectedDate!);
   }
@@ -104,7 +102,7 @@ class _AutomationFormState extends ConsumerState<AutomationForm> {
     }
 
     var data = Automations(
-      id: widget.automation?.id ?? '',
+      id: _automation?.id ?? '',
       food: _foodTimeList.map((e) => e.format(context)).toList(),
       water: _waterTimeList.map((e) => e.format(context)).toList(),
       disinfectant: _weekdayValues,
@@ -112,11 +110,21 @@ class _AutomationFormState extends ConsumerState<AutomationForm> {
       status: AutomationsStatus.initial,
     );
 
-    Collections.automations.ref.push().set(data.toJson()).then((value) {
+    Future<void>? automationFuture;
+
+    if (_automation != null) {
+      automationFuture =
+          Collections.automations.ref.child(data.id).update(data.toJson());
+    } else {
+      automationFuture = Collections.automations.ref.push().set(data.toJson());
+    }
+
+    automationFuture.then((value) {
       _clearFields();
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Automation added'),
+        SnackBar(
+          content:
+              Text('Automation ${_automation != null ? 'updated' : 'added'}'),
         ),
       );
     }).catchError(
@@ -133,6 +141,7 @@ class _AutomationFormState extends ConsumerState<AutomationForm> {
   @override
   Widget build(BuildContext context) {
     return ListView(
+      controller: null,
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       children: [
         Wrap(
@@ -149,15 +158,15 @@ class _AutomationFormState extends ConsumerState<AutomationForm> {
                   children: [
                     Column(
                       children: [
-                        const Text(
-                          'Pemberian pakan dalam sehari',
+                        Text(
+                          'Pemberian pakan dalam sehari (${_foodTimeList.length})',
                         ),
                         const SizedBox(height: 8),
                         HoursInput(
                           hours: _foodTimeList,
                           onChange: (list) {
                             setState(() {
-                              _foodTimeList.addAll(list);
+                              _foodTimeList = list;
                             });
                           },
                         )
@@ -178,13 +187,14 @@ class _AutomationFormState extends ConsumerState<AutomationForm> {
                   children: [
                     Column(
                       children: [
-                        const Text('Pemberian minum dalam sehari'),
+                        Text(
+                            'Pemberian minum dalam sehari (${_waterTimeList.length})'),
                         const SizedBox(height: 8),
                         HoursInput(
                           hours: _waterTimeList,
                           onChange: (list) {
                             setState(() {
-                              _waterTimeList.addAll(list);
+                              _waterTimeList = list;
                             });
                           },
                         )

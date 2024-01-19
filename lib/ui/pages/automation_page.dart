@@ -30,7 +30,6 @@ class _AutomationPageState extends ConsumerState<AutomationPage>
   @override
   Widget build(BuildContext context) {
     ref.listen(automationsTabIndexProvider, (prev, curr) {
-      print('tabIndex ${curr.tabIndex}');
       _tabController.animateTo(curr.tabIndex);
     });
 

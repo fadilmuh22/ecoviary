@@ -67,7 +67,7 @@ class HomePage extends StatelessWidget {
         StreamBuilder(
           stream: Collections.sensors.ref.onValue,
           builder: (context, snapshot) {
-            if (snapshot.hasData) {
+            if (snapshot.hasData && snapshot.data!.snapshot.value != null) {
               var sensor = Sensors.fromJson(Map<String, dynamic>.from(
                   snapshot.data!.snapshot.value as Map));
 
@@ -144,7 +144,7 @@ class HomePage extends StatelessWidget {
         StreamBuilder(
           stream: Collections.coops.ref.onValue,
           builder: (context, snapshot) {
-            if (snapshot.hasData) {
+            if (snapshot.hasData && snapshot.data!.snapshot.value != null) {
               var coop = Coops.fromJson(Map<String, dynamic>.from(
                   snapshot.data!.snapshot.value as Map));
               return CoopCard(coop: coop);
