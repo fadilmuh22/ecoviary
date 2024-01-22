@@ -1,4 +1,5 @@
 import 'package:ecoviary/data/services/realtime_database.dart';
+import 'package:ecoviary/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
@@ -33,6 +34,45 @@ class AutomationCard extends StatelessWidget {
         );
       },
     );
+  }
+
+  void _handleStartAutomation(BuildContext context) {
+    try {
+      Collections.automations.ref.get().then((snapshot) {
+        var automations = firebaseObjectToAutomationsList(snapshot.value);
+        for (var element in automations) {
+          Collections.automations.ref.child(element.id).update({
+            'activated': false,
+          });
+        }
+      });
+
+      if (automation.activated) return;
+
+      Collections.automations.ref.child(automation.id).update({
+        'activated': !automation.activated,
+      }).then((value) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Automasi dijalankan'),
+          ),
+        );
+      }).catchError(
+        (error) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(error.toString()),
+            ),
+          );
+        },
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.toString()),
+        ),
+      );
+    }
   }
 
   @override
@@ -106,7 +146,13 @@ class AutomationCard extends StatelessWidget {
               onChanged: (value) {},
               values: automation.disinfectant,
               shortWeekdays: dateTimeSymbolMap()['id'].SHORTWEEKDAYS,
-            )
+            ),
+            const SizedBox(height: 8),
+            ElevatedButton(
+              onPressed: () => _handleStartAutomation(context),
+              child: Text(
+                  '${automation.activated ? 'Jalankan' : 'Hentikan'} Automasi'),
+            ),
           ],
         ),
       ),

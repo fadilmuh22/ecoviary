@@ -7,6 +7,7 @@ class Automations {
   final List<bool> disinfectant;
   final int date;
   final AutomationsStatus status;
+  final bool activated;
 
   Automations({
     required this.id,
@@ -15,6 +16,7 @@ class Automations {
     required this.disinfectant,
     required this.date,
     required this.status,
+    required this.activated,
   });
 
   factory Automations.defaultValues() {
@@ -25,6 +27,7 @@ class Automations {
       disinfectant: [false, false, false, false, false, false, false],
       date: DateTime.now().millisecondsSinceEpoch,
       status: AutomationsStatus.initial,
+      activated: false,
     );
   }
 
@@ -36,6 +39,7 @@ class Automations {
       disinfectant: json['disinfectant'].map<bool>((e) => e as bool).toList(),
       date: json['date'],
       status: AutomationsStatus.values[json['status']],
+      activated: json['activated'],
     );
   }
 
@@ -47,6 +51,7 @@ class Automations {
       'disinfectant': disinfectant,
       'date': date,
       'status': status.index,
+      'activated': activated,
     };
   }
 }

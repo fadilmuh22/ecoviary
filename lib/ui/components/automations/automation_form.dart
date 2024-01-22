@@ -108,6 +108,7 @@ class _AutomationFormState extends ConsumerState<AutomationForm> {
       disinfectant: _weekdayValues,
       date: _selectedDate!.millisecondsSinceEpoch,
       status: AutomationsStatus.initial,
+      activated: true,
     );
 
     Future<void>? automationFuture;
