@@ -73,9 +73,7 @@ class RealtimeDatabase {
 
     var automations = await Collections.automations.ref.get();
     if (!automations.exists) {
-      Collections.automations.ref
-          .push()
-          .set(Automations.defaultValues().toJson());
+      Collections.automations.ref.set(Automations.defaultValues().toJson());
     }
   }
 }

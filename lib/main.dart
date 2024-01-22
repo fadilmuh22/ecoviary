@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:ecoviary/ui/pages/main_tab_page.dart';
 import 'package:ecoviary/data/services/realtime_database.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,9 +26,10 @@ class MyApp extends StatelessWidget {
       title: 'EcoViary',
       theme: ThemeData(
         colorScheme: const ColorScheme(
-          primary: Color(0xFF0E4E30),
+          primary: Color(0xFF1D7C4D),
           onPrimary: Colors.white,
           primaryContainer: Color(0xFFC2EBD5),
+          inversePrimary: Color(0xFF0E4E30),
           tertiary: Color(0xFF113997),
           onTertiary: Colors.white,
           tertiaryContainer: Color(0xFFCDDDFF),
@@ -42,6 +44,53 @@ class MyApp extends StatelessWidget {
           onBackground: Color(0xFF1B242C),
           surface: Colors.white,
           onSurface: Color(0xFF1B242C),
+        ),
+        textTheme: GoogleFonts.publicSansTextTheme(
+          const TextTheme().copyWith(
+            titleMedium: const TextStyle(
+              fontSize: 10,
+              color: Color(0xFF7E8B99),
+            ),
+          ),
+        ),
+        filledButtonTheme: FilledButtonThemeData(
+          style: FilledButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+          ),
+        ),
+        inputDecorationTheme: InputDecorationTheme(
+          isDense: true,
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+          enabledBorder: OutlineInputBorder(
+            borderSide: const BorderSide(
+              color: Color(0xFF9EA8B3),
+            ),
+            borderRadius: BorderRadius.circular(4),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(
+              color: Color(0xFF9EA8B3),
+            ),
+            borderRadius: BorderRadius.circular(4),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderSide: const BorderSide(
+              color: Colors.red,
+            ),
+            borderRadius: BorderRadius.circular(4),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderSide: const BorderSide(
+              color: Colors.red,
+            ),
+            borderRadius: BorderRadius.circular(4),
+          ),
+          hintStyle: const TextStyle(
+            fontSize: 12,
+          ),
         ),
         useMaterial3: true,
       ),

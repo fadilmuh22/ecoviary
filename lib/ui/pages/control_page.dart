@@ -78,7 +78,7 @@ class _ControlPageState extends State<ControlPage>
             Tab(icon: Icon(Icons.water_drop_rounded)),
           ],
         ),
-        StreamBuilder<DatabaseEvent>(
+        StreamBuilder(
           stream: Collections.controls.ref.onValue,
           builder: (context, snapshot) {
             if (snapshot.hasData && snapshot.data!.snapshot.value != null) {
@@ -131,7 +131,10 @@ class _ControlPageState extends State<ControlPage>
                 ),
               );
             }
-            return const SizedBox();
+
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
           },
         )
       ],

@@ -8,7 +8,7 @@ import 'package:ecoviary/data/models/automations_model.dart';
 import 'package:weekday_selector/weekday_selector.dart';
 
 class AutomationCard extends StatelessWidget {
-  final Function(Automations) onEdit;
+  final void Function(Automations) onEdit;
 
   const AutomationCard({
     super.key,

@@ -3,7 +3,8 @@ class Coops {
   final int totalRooster;
   final int totalHen;
   final int totalChicken;
-  final String date;
+  final int date;
+  final int age;
 
   Coops({
     required this.name,
@@ -11,6 +12,7 @@ class Coops {
     required this.totalHen,
     required this.totalChicken,
     required this.date,
+    required this.age,
   });
 
   factory Coops.defaultValues() {
@@ -19,7 +21,8 @@ class Coops {
       totalRooster: 0,
       totalHen: 0,
       totalChicken: 0,
-      date: DateTime.now().toIso8601String(),
+      date: DateTime.now().millisecondsSinceEpoch,
+      age: 20,
     );
   }
 
@@ -30,6 +33,7 @@ class Coops {
       totalHen: json['totalHen'],
       totalChicken: json['totalChicken'],
       date: json['date'],
+      age: json['umur'],
     );
   }
 
@@ -40,6 +44,7 @@ class Coops {
       'totalHen': totalHen,
       'totalChicken': totalChicken,
       'date': date,
+      'umur': age,
     };
   }
 

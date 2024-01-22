@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ControlItem extends StatelessWidget {
   final Widget icon;
   final bool value;
-  final Function(bool) onChange;
+  final void Function(bool) onChange;
 
   const ControlItem({
     super.key,

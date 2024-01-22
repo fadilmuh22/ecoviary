@@ -1,5 +1,7 @@
 import 'package:ecoviary/data/models/coops_model.dart';
+import 'package:ecoviary/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class CoopCard extends StatelessWidget {
   final Coops coop;
@@ -23,7 +25,7 @@ class CoopCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primaryContainer,
+              color: Theme.of(context).colorScheme.secondaryContainer,
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(8),
                 topRight: Radius.circular(8),
@@ -34,9 +36,16 @@ class CoopCard extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    const Icon(Icons.info),
+                    const Icon(Icons.info, size: 12),
                     const SizedBox(width: 8),
-                    Text(coop.date.substring(0, 10)),
+                    Text(
+                      DateFormat('dd/mm/yyyy').format(
+                        DateTime.fromMillisecondsSinceEpoch(coop.date),
+                      ),
+                      style: const TextStyle(
+                        fontSize: 10,
+                      ),
+                    ),
                   ],
                 ),
                 Row(
@@ -44,6 +53,7 @@ class CoopCard extends StatelessWidget {
                     const Text(
                       'Umur',
                       style: TextStyle(
+                        fontSize: 10,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -51,13 +61,14 @@ class CoopCard extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.all(4),
                       decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.primary,
+                        color: Theme.of(context).colorScheme.onSurface,
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: Text(
-                        '${coop.date.substring(0, 2)} Hari',
+                        formatDaysToChickenAge(coop.age),
                         style: const TextStyle(
                           color: Colors.white,
+                          fontSize: 8,
                         ),
                       ),
                     ),
@@ -73,16 +84,12 @@ class CoopCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('Betina'),
-                    Text('${coop.totalHen}'),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text('Jantan'),
-                    Text('${coop.totalRooster}'),
+                    const Text(
+                      'Betina',
+                    ),
+                    Text(
+                      '${coop.totalHen}',
+                    ),
                   ],
                 ),
                 const SizedBox(height: 8),
@@ -90,7 +97,19 @@ class CoopCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
-                      'Jumlah',
+                      'Jantan',
+                    ),
+                    Text(
+                      '${coop.totalRooster}',
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'Jumlah Ayam',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
@@ -106,7 +125,6 @@ class CoopCard extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 4),
         ],
       ),
     );

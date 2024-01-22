@@ -1,12 +1,11 @@
+import 'package:ecoviary/ui/pages/coops_page.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ecoviary/data/models/coops_model.dart';
-import 'package:ecoviary/data/models/sensors_model.dart';
 import 'package:ecoviary/data/services/realtime_database.dart';
-import 'package:ecoviary/ui/components/sensor_card.dart';
-import 'package:ecoviary/ui/components/coop_card.dart';
-import 'package:ecoviary/ui/components/coops_dropdown.dart';
-import 'package:ecoviary/utils/utils.dart';
+import 'package:ecoviary/ui/components/monitoring_view.dart';
+import 'package:ecoviary/ui/components/coops/coop_card.dart';
+import 'package:ecoviary/ui/components/coops/coop_dropdown.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -29,110 +28,46 @@ class HomePage extends StatelessWidget {
                 children: [
                   Icon(
                     Icons.place,
+                    size: 12,
                     color: Theme.of(context).colorScheme.secondary,
                   ),
                   const SizedBox(width: 8),
-                  const Text('Bengras Farm'),
+                  const Text(
+                    'Bengras Farm',
+                    style: TextStyle(
+                      fontSize: 10,
+                    ),
+                  ),
                 ],
               ),
             ),
             IconButton(
               onPressed: () {},
               icon: CircleAvatar(
+                radius: 16,
                 backgroundColor:
                     Theme.of(context).colorScheme.secondaryContainer,
                 child: Icon(
                   Icons.person,
+                  size: 12,
                   color: Theme.of(context).colorScheme.secondary,
                 ),
               ),
             ),
           ],
         ),
-        const SizedBox(height: 16),
-        Row(
+        const SizedBox(height: 12),
+        const Row(
           mainAxisSize: MainAxisSize.max,
           children: [
-            const Expanded(
+            Expanded(
               child: CoopsDropdown(),
             ),
-            const SizedBox(width: 12),
-            IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.more_horiz),
-            )
           ],
         ),
-        const SizedBox(height: 24),
-        StreamBuilder(
-          stream: Collections.sensors.ref.onValue,
-          builder: (context, snapshot) {
-            if (snapshot.hasData && snapshot.data!.snapshot.value != null) {
-              var sensor = Sensors.fromJson(Map<String, dynamic>.from(
-                  snapshot.data!.snapshot.value as Map));
-
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Monitoring Sanitasi',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SensorCard(
-                        title: 'Suhu',
-                        value: formatTemperature(sensor.temperature),
-                        description: sensor.getSensorDescription(),
-                        icon: Icons.thermostat_rounded,
-                        iconColor: Theme.of(context).colorScheme.primary,
-                        backgroundColor:
-                            Theme.of(context).colorScheme.primaryContainer,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SensorCard(
-                        title: 'Kelembapan',
-                        value: formatPercentage(sensor.humidity),
-                        description: sensor.getSensorDescription(),
-                        icon: Icons.water_drop_rounded,
-                        iconColor: Theme.of(context).colorScheme.tertiary,
-                        backgroundColor:
-                            Theme.of(context).colorScheme.tertiaryContainer,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SensorCard(
-                        title: 'Amonia',
-                        value: formatPercentage(sensor.amonia),
-                        description: sensor.getSensorDescription(),
-                        icon: Icons.warning_rounded,
-                        iconColor: Theme.of(context).colorScheme.error,
-                        backgroundColor:
-                            Theme.of(context).colorScheme.errorContainer,
-                      ),
-                    ],
-                  ),
-                ],
-              );
-            }
-            return const Column();
-          },
-        ),
-        const SizedBox(height: 24),
+        const SizedBox(height: 16),
+        const MonitoringView(),
+        const SizedBox(height: 16),
         const Text(
           'Data Kandang',
           style: TextStyle(
@@ -149,9 +84,24 @@ class HomePage extends StatelessWidget {
                   snapshot.data!.snapshot.value as Map));
               return CoopCard(coop: coop);
             }
-            return Container();
+
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
           },
         ),
+        const SizedBox(height: 8),
+        FilledButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const CoopsPage(),
+              ),
+            );
+          },
+          child: const Text('Atur data kandang'),
+        )
       ],
     );
   }

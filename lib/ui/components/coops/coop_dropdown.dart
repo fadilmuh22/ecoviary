@@ -25,7 +25,8 @@ class _CoopsDropdownState extends State<CoopsDropdown> {
             return InputDecorator(
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
-                contentPadding: EdgeInsets.symmetric(horizontal: 12),
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 8, horizontal: 12),
               ),
               child: DropdownButtonHideUnderline(
                 child: DropdownButton<Coops>(
@@ -37,6 +38,7 @@ class _CoopsDropdownState extends State<CoopsDropdown> {
                       _selectedCoop = value!;
                     });
                   },
+                  style: Theme.of(context).textTheme.titleMedium,
                   items: [coop].map<DropdownMenuItem<Coops>>(
                     (Coops value) {
                       return DropdownMenuItem<Coops>(
@@ -49,7 +51,10 @@ class _CoopsDropdownState extends State<CoopsDropdown> {
               ),
             );
           }
-          return Container();
+
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
         });
   }
 }

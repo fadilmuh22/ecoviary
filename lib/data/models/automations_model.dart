@@ -22,9 +22,9 @@ class Automations {
   factory Automations.defaultValues() {
     return Automations(
       id: '',
-      food: ['04:00', '12:00', '16:00'],
-      water: ['04:00', '08:00', '12:00', '16:00'],
-      disinfectant: [false, false, false, false, false, false, false],
+      food: ['04:00', '16:00'],
+      water: ['04:00', '16:00'],
+      disinfectant: [true, false, false, false, true, false, false],
       date: DateTime.now().millisecondsSinceEpoch,
       status: AutomationsStatus.initial,
       activated: false,

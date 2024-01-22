@@ -1,4 +1,4 @@
-import 'package:ecoviary/data/providers/form_providers.dart';
+import 'package:ecoviary/ui/components/forms/weekly_input_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -6,8 +6,9 @@ import 'package:intl/intl.dart';
 
 import 'package:ecoviary/data/models/automations_model.dart';
 import 'package:ecoviary/data/services/realtime_database.dart';
-import 'package:ecoviary/ui/components/hours_input.dart';
 import 'package:weekday_selector/weekday_selector.dart';
+import 'package:ecoviary/ui/components/forms/hours_input_card.dart';
+import 'package:ecoviary/data/providers/form_providers.dart';
 
 class AutomationForm extends ConsumerStatefulWidget {
   final Automations? automation;
@@ -121,7 +122,7 @@ class _AutomationFormState extends ConsumerState<AutomationForm> {
     }
 
     automationFuture.then((value) {
-      _clearFields();
+      // _clearFields();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content:
@@ -141,133 +142,89 @@ class _AutomationFormState extends ConsumerState<AutomationForm> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      controller: null,
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+    return Wrap(
+      runSpacing: 16,
       children: [
-        Wrap(
-          spacing: 4,
+        HoursInput(
+          title: 'Pemberian pakan dalam sehari',
+          hours: _foodTimeList,
+          onChange: (list) {
+            setState(() {
+              _foodTimeList = list;
+            });
+          },
+        ),
+        HoursInput(
+          title: 'Pemberian minum dalam sehari',
+          hours: _waterTimeList,
+          onChange: (list) {
+            setState(() {
+              _waterTimeList = list;
+            });
+          },
+        ),
+        WeeklyInputCard(
+          weekdayValues: _weekdayValues,
+          onChange: (list) {
+            setState(() {
+              _weekdayValues = list;
+            });
+          },
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 8.0,
-                  vertical: 12,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Column(
-                      children: [
-                        Text(
-                          'Pemberian pakan dalam sehari (${_foodTimeList.length})',
-                        ),
-                        const SizedBox(height: 8),
-                        HoursInput(
-                          hours: _foodTimeList,
-                          onChange: (list) {
-                            setState(() {
-                              _foodTimeList = list;
-                            });
-                          },
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 8.0,
-                  vertical: 12,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Column(
-                      children: [
-                        Text(
-                            'Pemberian minum dalam sehari (${_waterTimeList.length})'),
-                        const SizedBox(height: 8),
-                        HoursInput(
-                          hours: _waterTimeList,
-                          onChange: (list) {
-                            setState(() {
-                              _waterTimeList = list;
-                            });
-                          },
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 8.0,
-                  vertical: 12,
-                ),
-                child: Column(
-                  children: [
-                    const Text('Pemberian disinfektan dalam seminggu'),
-                    const SizedBox(height: 8),
-                    WeekdaySelector(
-                      shortWeekdays: dateTimeSymbolMap()['id'].SHORTWEEKDAYS,
-                      onChanged: (int day) {
-                        setState(() {
-                          final index = day % 7;
-                          _weekdayValues[index] = !_weekdayValues[index];
-                        });
-                      },
-                      values: _weekdayValues,
-                    )
-                  ],
-                ),
-              ),
-            ),
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 8.0,
-                  vertical: 12,
-                ),
-                child: Column(
-                  children: [
-                    const Text('Waktu mulai automasi'),
-                    TextFormField(
-                      controller: _dateController,
-                      textAlign: TextAlign.center,
-                      decoration: const InputDecoration(
-                        hintText: 'Tekan untuk mengubah',
-                        border: InputBorder.none,
-                      ),
-                      readOnly: true,
-                      onTap: () {
-                        _displayDatePicker(context);
-                      },
-                    )
-                  ],
-                ),
+            const Text(
+              'Waktu mulai automasi',
+              style: TextStyle(
+                fontSize: 10,
+                fontWeight: FontWeight.w600,
               ),
             ),
             const SizedBox(height: 8),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                FilledButton(
+                Expanded(
+                  child: TextFormField(
+                    controller: _dateController,
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 10,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                IconButton(
                   onPressed: () {
-                    _handleSubmit(context);
+                    _displayDatePicker(context);
                   },
-                  child: const Text('Simpan'),
+                  icon: const Icon(Icons.calendar_today_rounded),
+                  color: Colors.black,
+                  iconSize: 14,
+                  padding: const EdgeInsets.all(10),
+                  constraints: const BoxConstraints(),
+                  style: IconButton.styleFrom(
+                    backgroundColor:
+                        Theme.of(context).colorScheme.secondaryContainer,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
                 ),
               ],
-            )
+            ),
           ],
         ),
+        FilledButton(
+          style: FilledButton.styleFrom(
+            minimumSize: const Size.fromHeight(40),
+          ),
+          onPressed: () {
+            _handleSubmit(context);
+          },
+          child: const Text('Simpan'),
+        )
       ],
     );
   }

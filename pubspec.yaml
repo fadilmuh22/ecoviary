@@ -21,6 +21,7 @@ dependencies:
   hooks_riverpod: ^2.4.9
   flutter_hooks: ^0.20.4
   flutter_riverpod: ^2.4.9
+  google_fonts: ^6.1.0
 
 dev_dependencies:
   flutter_test:

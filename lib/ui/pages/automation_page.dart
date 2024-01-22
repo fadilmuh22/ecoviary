@@ -1,59 +1,54 @@
-import 'package:ecoviary/data/providers/ui_providers.dart';
+import 'package:ecoviary/data/models/automations_model.dart';
+import 'package:ecoviary/data/services/realtime_database.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ecoviary/ui/components/automations/automation_form.dart';
-import 'package:ecoviary/ui/components/automations/automation_list.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AutomationPage extends ConsumerStatefulWidget {
+class AutomationPage extends StatefulWidget {
   const AutomationPage({super.key});
 
   @override
-  ConsumerState<AutomationPage> createState() => _AutomationPageState();
+  State<AutomationPage> createState() => _AutomationPageState();
 }
 
-class _AutomationPageState extends ConsumerState<AutomationPage>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-
+class _AutomationPageState extends State<AutomationPage> {
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
-    _tabController.addListener(_handleTabChange);
-  }
-
-  void _handleTabChange() {
-    ref.read(automationsTabIndexProvider).changeTab(_tabController.index);
   }
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(automationsTabIndexProvider, (prev, curr) {
-      _tabController.animateTo(curr.tabIndex);
-    });
-
-    return Column(
+    return ListView(
+      controller: null,
       children: [
-        TabBar(
-          controller: _tabController,
-          tabs: const [
-            Tab(
-              text: 'Daftar Automasi',
+        AppBar(
+          title: const Text(
+            'Data Automasi',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
             ),
-            Tab(
-              text: 'Buat Automasi',
-            ),
-          ],
-          labelColor: Colors.black,
+          ),
+          centerTitle: true,
+          backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
         ),
-        Expanded(
-          child: TabBarView(
-            controller: _tabController,
-            children: const [
-              AutomationList(),
-              AutomationForm(),
-            ],
+        const SizedBox(height: 16),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: StreamBuilder(
+            stream: Collections.automations.ref.onValue,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                var automations = Automations.fromJson(
+                    Map<String, dynamic>.from(
+                        snapshot.data!.snapshot.value as Map));
+                return AutomationForm(automation: automations);
+              }
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            },
           ),
         ),
       ],

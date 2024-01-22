@@ -37,7 +37,10 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               );
             }
-            return const Column();
+
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
           },
         )
       ],
