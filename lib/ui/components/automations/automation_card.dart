@@ -22,7 +22,7 @@ class AutomationCard extends StatelessWidget {
     Collections.automations.ref.child(automation.id).remove().then((value) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Automation deleted'),
+          content: Text('Otomasideleted'),
         ),
       );
     }).catchError(
@@ -54,7 +54,7 @@ class AutomationCard extends StatelessWidget {
       }).then((value) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Automasi dijalankan'),
+            content: Text('Otomasi dijalankan'),
           ),
         );
       }).catchError(
@@ -151,7 +151,7 @@ class AutomationCard extends StatelessWidget {
             ElevatedButton(
               onPressed: () => _handleStartAutomation(context),
               child: Text(
-                  '${automation.activated ? 'Jalankan' : 'Hentikan'} Automasi'),
+                  '${automation.activated ? 'Jalankan' : 'Hentikan'} Otomasi'),
             ),
           ],
         ),

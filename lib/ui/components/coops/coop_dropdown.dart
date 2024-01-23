@@ -26,7 +26,7 @@ class _CoopsDropdownState extends State<CoopsDropdown> {
               decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 contentPadding:
-                    EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                    EdgeInsets.symmetric(vertical: 5, horizontal: 12),
               ),
               child: DropdownButtonHideUnderline(
                 child: DropdownButton<Coops>(

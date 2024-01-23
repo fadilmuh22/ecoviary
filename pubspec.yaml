@@ -22,10 +22,14 @@ dependencies:
   flutter_hooks: ^0.20.4
   flutter_riverpod: ^2.4.9
   google_fonts: ^6.1.0
+  flutter_remix: ^0.0.3
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  flutter_native_splash: ^2.3.9
+  flutter_launcher_icons: ^0.13.1
 
   flutter_lints: ^2.0.0
   custom_lint: ^0.5.8
@@ -33,3 +37,37 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+flutter_native_splash:
+  color: "#1D7C4D"
+  image: assets/images/logo.png
+  branding: assets/images/logo.png
+  color_dark: "#1D7C4D"
+  image_dark: assets/images/logo.png
+  branding_dark: assets/images/logo.png
+
+  android_12:
+    image: assets/images/logo.png
+    icon_background_color: "#1D7C4D"
+    image_dark: assets/images/logo.png
+    icon_background_color_dark: "#1D7C4D"
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/icon.png"
+  adaptive_icon_background: "assets/images/icon-bg.png"
+  adaptive_icon_foreground: "assets/images/icon.png"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: "assets/images/icon.png"
+    background_color: "#1D7C4D"
+    theme_color: "#1D7C4D"
+  windows:
+    generate: true
+    image_path: "assets/images/icon.png"
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "assets/images/icon.png"

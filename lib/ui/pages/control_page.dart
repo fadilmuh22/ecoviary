@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_database/firebase_database.dart';
 
 import 'package:ecoviary/data/services/realtime_database.dart';
 import 'package:ecoviary/data/models/controls_model.dart';
@@ -72,9 +71,15 @@ class _ControlPageState extends State<ControlPage>
         ),
         TabBar(
           controller: _tabController,
+          indicatorSize: TabBarIndicatorSize.tab,
+          indicator: BoxDecoration(
+            color: Theme.of(context).colorScheme.primary,
+          ),
+          labelColor: Theme.of(context).colorScheme.onPrimary,
+          unselectedLabelColor: Theme.of(context).colorScheme.inverseSurface,
           tabs: const [
-            Tab(icon: Icon(Icons.lightbulb)),
-            Tab(icon: Icon(Icons.local_pizza)),
+            Tab(icon: Icon(Icons.lightbulb_rounded)),
+            Tab(icon: Icon(Icons.local_pizza_rounded)),
             Tab(icon: Icon(Icons.water_drop_rounded)),
           ],
         ),
@@ -95,7 +100,7 @@ class _ControlPageState extends State<ControlPage>
                     children: [
                       ControlItem(
                         icon: const Icon(
-                          Icons.lightbulb,
+                          Icons.lightbulb_rounded,
                           size: 150,
                         ),
                         value: control.light ?? false,
@@ -106,7 +111,7 @@ class _ControlPageState extends State<ControlPage>
                       ),
                       ControlItem(
                         icon: const Icon(
-                          Icons.local_pizza,
+                          Icons.local_pizza_rounded,
                           size: 150,
                         ),
                         value: control.disinfectant ?? false,

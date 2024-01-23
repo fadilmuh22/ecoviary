@@ -1,19 +1,27 @@
-import 'package:ecoviary/data/providers/form_providers.dart';
-import 'package:ecoviary/ui/components/forms/add_button.dart';
-import 'package:ecoviary/ui/components/forms/days_dropdown.dart';
-import 'package:ecoviary/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:ecoviary/data/models/coops_model.dart';
+import 'package:ecoviary/data/providers/form_providers.dart';
+import 'package:ecoviary/ui/components/forms/add_button.dart';
+import 'package:ecoviary/ui/components/forms/days_dropdown.dart';
+import 'package:ecoviary/utils/utils.dart';
+
 class CoopForm extends ConsumerStatefulWidget {
-  const CoopForm({super.key});
+  final Coops? coop;
+
+  const CoopForm({
+    super.key,
+    this.coop,
+  });
 
   @override
   ConsumerState<CoopForm> createState() => _CoopFormState();
 }
 
 class _CoopFormState extends ConsumerState<CoopForm> {
+  Coops? _coop;
   late GlobalKey<FormState> _formKey;
 
   DaysEnum _daysEnum = DaysEnum.days;
@@ -52,13 +60,22 @@ class _CoopFormState extends ConsumerState<CoopForm> {
     ref.read(coopFormProvider).totalController.text = '0';
   }
 
+  void _fillFields() {
+    if (_coop == null) return;
+
+    ref.read(coopFormProvider).ageController.text = _coop!.age.toString();
+    ref.read(coopFormProvider).henController.text = _coop!.totalHen.toString();
+    ref.read(coopFormProvider).roosterController.text =
+        _coop!.totalRooster.toString();
+    ref.read(coopFormProvider).totalController.text =
+        _coop!.totalChicken.toString();
+  }
+
   @override
   void initState() {
     super.initState();
 
     _formKey = ref.read(coopFormProvider).formKey;
-
-    _setDefaultValue();
 
     var henController = ref.read(coopFormProvider).henController;
     var roosterController = ref.read(coopFormProvider).roosterController;
@@ -74,6 +91,13 @@ class _CoopFormState extends ConsumerState<CoopForm> {
           (int.parse(henController.text) + int.parse(roosterController.text))
               .toString();
     });
+
+    _coop = widget.coop ?? ref.read(coopFormProvider).coop;
+    _fillFields();
+
+    if (_coop == null) {
+      _setDefaultValue();
+    }
   }
 
   @override
@@ -263,7 +287,7 @@ class _CoopFormState extends ConsumerState<CoopForm> {
               TextButton(
                 onPressed: () => {},
                 style: TextButton.styleFrom(
-                  foregroundColor: Theme.of(context).colorScheme.tertiary,
+                  foregroundColor: Theme.of(context).colorScheme.surfaceTint,
                 ),
                 child: const Text('Lihat data sebelumnya'),
               ),

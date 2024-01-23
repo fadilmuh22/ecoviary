@@ -1,10 +1,8 @@
-import 'package:ecoviary/data/providers/form_providers.dart';
-import 'package:ecoviary/ui/components/coops/coop_form.dart';
-import 'package:ecoviary/ui/components/forms/add_button.dart';
-import 'package:ecoviary/ui/components/forms/days_dropdown.dart';
-import 'package:ecoviary/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:ecoviary/data/providers/form_providers.dart';
+import 'package:ecoviary/ui/components/coops/coop_form.dart';
 
 class CoopsPage extends ConsumerStatefulWidget {
   const CoopsPage({super.key});

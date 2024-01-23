@@ -24,7 +24,7 @@ class _AutomationPageState extends State<AutomationPage> {
       children: [
         AppBar(
           title: const Text(
-            'Data Automasi',
+            'Pengaturan Automatis',
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,

@@ -38,6 +38,16 @@ class _WeeklyInputCardState extends State<WeeklyInputCard> {
                 !widget.weekdayValues[index]);
           },
           values: widget.weekdayValues,
+          textStyle: TextStyle(
+            fontSize: 10,
+            color: Theme.of(context).colorScheme.onBackground,
+            fontWeight: FontWeight.bold,
+          ),
+          selectedTextStyle: TextStyle(
+            fontSize: 10,
+            color: Theme.of(context).colorScheme.background,
+            fontWeight: FontWeight.bold,
+          ),
         )
       ],
     );

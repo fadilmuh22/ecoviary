@@ -1,3 +1,4 @@
+import 'package:ecoviary/data/providers/form_providers.dart';
 import 'package:ecoviary/ui/pages/coops_page.dart';
 import 'package:flutter/material.dart';
 
@@ -6,12 +7,13 @@ import 'package:ecoviary/data/services/realtime_database.dart';
 import 'package:ecoviary/ui/components/monitoring_view.dart';
 import 'package:ecoviary/ui/components/coops/coop_card.dart';
 import 'package:ecoviary/ui/components/coops/coop_dropdown.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends ConsumerWidget {
   const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return ListView(
       padding: const EdgeInsets.all(20),
       children: <Widget>[
@@ -82,7 +84,30 @@ class HomePage extends StatelessWidget {
             if (snapshot.hasData && snapshot.data!.snapshot.value != null) {
               var coop = Coops.fromJson(Map<String, dynamic>.from(
                   snapshot.data!.snapshot.value as Map));
-              return CoopCard(coop: coop);
+              return Column(
+                children: [
+                  CoopCard(coop: coop),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: FilledButton(
+                          onPressed: () {
+                            ref.read(coopFormProvider).setCoop(coop);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const CoopsPage(),
+                              ),
+                            );
+                          },
+                          child: const Text('Atur data kandang'),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              );
             }
 
             return const Center(
@@ -90,18 +115,6 @@ class HomePage extends StatelessWidget {
             );
           },
         ),
-        const SizedBox(height: 8),
-        FilledButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const CoopsPage(),
-              ),
-            );
-          },
-          child: const Text('Atur data kandang'),
-        )
       ],
     );
   }

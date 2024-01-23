@@ -1,6 +1,7 @@
 import 'package:ecoviary/data/models/coops_model.dart';
 import 'package:ecoviary/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_remix/flutter_remix.dart';
 import 'package:intl/intl.dart';
 
 class CoopCard extends StatelessWidget {
@@ -18,7 +19,7 @@ class CoopCard extends StatelessWidget {
         border: Border.all(
           color: Colors.grey,
         ),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(4),
       ),
       child: Column(
         children: [
@@ -27,8 +28,8 @@ class CoopCard extends StatelessWidget {
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.secondaryContainer,
               borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(8),
-                topRight: Radius.circular(8),
+                topLeft: Radius.circular(4),
+                topRight: Radius.circular(4),
               ),
             ),
             child: Row(
@@ -36,7 +37,7 @@ class CoopCard extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    const Icon(Icons.info, size: 12),
+                    const Icon(FlutterRemix.spam_2_fill, size: 12),
                     const SizedBox(width: 8),
                     Text(
                       DateFormat('dd/mm/yyyy').format(

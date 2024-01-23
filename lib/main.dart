@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:ecoviary/ui/pages/main_tab_page.dart';
 import 'package:ecoviary/data/services/realtime_database.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,36 +27,44 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: const ColorScheme(
           primary: Color(0xFF1D7C4D),
-          onPrimary: Colors.white,
+          onPrimary: Color(0xFFFBFCFD),
           primaryContainer: Color(0xFFC2EBD5),
           inversePrimary: Color(0xFF0E4E30),
           tertiary: Color(0xFF113997),
-          onTertiary: Colors.white,
+          onTertiary: Color(0xFFFBFCFD),
           tertiaryContainer: Color(0xFFCDDDFF),
           secondary: Color(0xFF555F6D),
           onSecondary: Color(0xFF555F6D),
           secondaryContainer: Color(0xFFCFD6DD),
           error: Color(0xFF6F2020),
-          onError: Colors.white,
+          onError: Color(0xFFFBFCFD),
           errorContainer: Color(0xFFFCCFCF),
           brightness: Brightness.light,
-          background: Colors.white,
+          background: Color(0xFFFBFCFD),
           onBackground: Color(0xFF1B242C),
-          surface: Colors.white,
+          surface: Color(0xFFFBFCFD),
           onSurface: Color(0xFF1B242C),
+          inverseSurface: Color(0xFF7E8B99),
+          surfaceTint: Color(0xFF3062D4),
+          outline: Color(0xFF9EA8B3),
         ),
         textTheme: GoogleFonts.publicSansTextTheme(
           const TextTheme().copyWith(
-            titleMedium: const TextStyle(
+            displayLarge: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).colorScheme.onBackground,
+            ),
+            titleMedium: TextStyle(
               fontSize: 10,
-              color: Color(0xFF7E8B99),
+              color: Theme.of(context).colorScheme.inverseSurface,
             ),
           ),
         ),
         filledButtonTheme: FilledButtonThemeData(
           style: FilledButton.styleFrom(
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(4),
             ),
           ),
         ),
@@ -65,14 +73,14 @@ class MyApp extends StatelessWidget {
           contentPadding:
               const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
           enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: Color(0xFF9EA8B3),
+            borderSide: BorderSide(
+              color: Theme.of(context).colorScheme.outline,
             ),
             borderRadius: BorderRadius.circular(4),
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: Color(0xFF9EA8B3),
+            borderSide: BorderSide(
+              color: Theme.of(context).colorScheme.outline,
             ),
             borderRadius: BorderRadius.circular(4),
           ),

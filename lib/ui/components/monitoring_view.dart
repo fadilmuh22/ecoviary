@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_remix/flutter_remix.dart';
 
 import 'package:ecoviary/utils/utils.dart';
 import 'package:ecoviary/data/models/sensors_model.dart';
@@ -37,7 +38,7 @@ class MonitoringView extends StatelessWidget {
                     title: 'Suhu',
                     value: formatTemperature(sensor.temperature),
                     description: sensor.getSensorDescription(),
-                    icon: Icons.thermostat_rounded,
+                    icon: FlutterRemix.temp_cold_fill,
                     iconColor: Theme.of(context).colorScheme.inversePrimary,
                     backgroundColor:
                         Theme.of(context).colorScheme.primaryContainer,
@@ -52,7 +53,7 @@ class MonitoringView extends StatelessWidget {
                     title: 'Kelembapan',
                     value: formatPercentage(sensor.humidity),
                     description: sensor.getSensorDescription(),
-                    icon: Icons.water_drop_rounded,
+                    icon: FlutterRemix.drop_fill,
                     iconColor: Theme.of(context).colorScheme.tertiary,
                     backgroundColor:
                         Theme.of(context).colorScheme.tertiaryContainer,
@@ -67,7 +68,7 @@ class MonitoringView extends StatelessWidget {
                     title: 'Amonia',
                     value: formatPercentage(sensor.amonia),
                     description: sensor.getSensorDescription(),
-                    icon: Icons.warning_rounded,
+                    icon: FlutterRemix.alert_fill,
                     iconColor: Theme.of(context).colorScheme.error,
                     backgroundColor:
                         Theme.of(context).colorScheme.errorContainer,

@@ -1,14 +1,13 @@
-import 'package:ecoviary/ui/components/forms/weekly_input_card.dart';
+import 'package:flutter_remix/flutter_remix.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/date_symbol_data_local.dart';
-import 'package:intl/intl.dart';
 
 import 'package:ecoviary/data/models/automations_model.dart';
 import 'package:ecoviary/data/services/realtime_database.dart';
-import 'package:weekday_selector/weekday_selector.dart';
-import 'package:ecoviary/ui/components/forms/hours_input_card.dart';
 import 'package:ecoviary/data/providers/form_providers.dart';
+import 'package:ecoviary/ui/components/forms/hours_input_card.dart';
+import 'package:ecoviary/ui/components/forms/weekly_input_card.dart';
 
 class AutomationForm extends ConsumerStatefulWidget {
   final Automations? automation;
@@ -124,9 +123,8 @@ class _AutomationFormState extends ConsumerState<AutomationForm> {
     automationFuture.then((value) {
       // _clearFields();
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content:
-              Text('Automation ${_automation != null ? 'updated' : 'added'}'),
+        const SnackBar(
+          content: Text('Otomasi berhasil diubah'),
         ),
       );
     }).catchError(
@@ -175,7 +173,7 @@ class _AutomationFormState extends ConsumerState<AutomationForm> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              'Waktu mulai automasi',
+              'Waktu mulai Otomasi',
               style: TextStyle(
                 fontSize: 10,
                 fontWeight: FontWeight.w600,
@@ -198,7 +196,7 @@ class _AutomationFormState extends ConsumerState<AutomationForm> {
                   onPressed: () {
                     _displayDatePicker(context);
                   },
-                  icon: const Icon(Icons.calendar_today_rounded),
+                  icon: const Icon(FlutterRemix.calendar_2_fill),
                   color: Colors.black,
                   iconSize: 14,
                   padding: const EdgeInsets.all(10),

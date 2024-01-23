@@ -2,6 +2,7 @@ import 'package:ecoviary/ui/pages/automation_page.dart';
 import 'package:ecoviary/ui/pages/control_page.dart';
 import 'package:ecoviary/ui/pages/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_remix/flutter_remix.dart';
 
 class MainTabPage extends StatefulWidget {
   const MainTabPage({super.key});
@@ -38,20 +39,22 @@ class _MainTabPageState extends State<MainTabPage> {
           });
         },
         backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
-        unselectedItemColor: Theme.of(context).colorScheme.onBackground,
+        unselectedItemColor: Theme.of(context).colorScheme.onSecondary,
         selectedItemColor: Theme.of(context).colorScheme.primary,
+        showUnselectedLabels: false,
+        iconSize: 24,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home_rounded),
-            label: 'Home',
+            icon: Icon(FlutterRemix.home_2_fill),
+            label: 'Beranda',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings_remote_rounded),
-            label: 'Control',
+            icon: Icon(FlutterRemix.remote_control_fill),
+            label: 'Kontrol',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings_ethernet),
-            label: 'Automation',
+            icon: Icon(FlutterRemix.git_merge_fill),
+            label: 'Otomasi',
           ),
         ],
       ),

@@ -1,5 +1,6 @@
 import 'package:ecoviary/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_remix/flutter_remix.dart';
 
 class HoursInput extends StatefulWidget {
   final String title;
@@ -64,7 +65,7 @@ class _HoursInputState extends State<HoursInput> {
               child: Container(
                 decoration: BoxDecoration(
                   border: Border.all(
-                    color: Theme.of(context).colorScheme.secondaryContainer,
+                    color: Theme.of(context).colorScheme.outline,
                   ),
                   borderRadius: BorderRadius.circular(4),
                 ),
@@ -132,7 +133,8 @@ class _HoursInputState extends State<HoursInput> {
                                                 ..removeAt(index),
                                             ));
                                           },
-                                          icon: const Icon(Icons.close),
+                                          icon: const Icon(
+                                              FlutterRemix.close_fill),
                                           constraints: const BoxConstraints(),
                                           style: IconButton.styleFrom(
                                             padding: EdgeInsets.zero,
@@ -165,13 +167,23 @@ class _HoursInputState extends State<HoursInput> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('counter: ${widget.hours.length}'),
-            FilledButton(
+            Text(
+              'counter: ${widget.hours.length}',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.outline,
+              ),
+            ),
+            OutlinedButton(
               onPressed: () {
                 setState(() {
                   _displayTimePicker(context);
                 });
               },
+              style: OutlinedButton.styleFrom(
+                side: BorderSide(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+              ),
               child: const Text('Tambah'),
             ),
           ],
