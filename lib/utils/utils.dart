@@ -15,7 +15,7 @@ String doubleRemoveFloatZero(double value) {
 }
 
 String formatPercentage(double value) {
-  return '${doubleRemoveFloatZero(value * 100)}%';
+  return '${doubleRemoveFloatZero(value)}%';
 }
 
 String formatTemperature(double value) {

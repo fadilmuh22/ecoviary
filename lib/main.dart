@@ -1,3 +1,4 @@
+import 'package:ecoviary/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -26,27 +27,28 @@ class MyApp extends StatelessWidget {
       title: 'EcoViary',
       theme: ThemeData(
         colorScheme: const ColorScheme(
-          primary: Color(0xFF1D7C4D),
-          onPrimary: Color(0xFFFBFCFD),
-          primaryContainer: Color(0xFFC2EBD5),
-          inversePrimary: Color(0xFF0E4E30),
-          tertiary: Color(0xFF113997),
-          onTertiary: Color(0xFFFBFCFD),
-          tertiaryContainer: Color(0xFFCDDDFF),
-          secondary: Color(0xFF555F6D),
-          onSecondary: Color(0xFF555F6D),
-          secondaryContainer: Color(0xFFCFD6DD),
-          error: Color(0xFF6F2020),
-          onError: Color(0xFFFBFCFD),
-          errorContainer: Color(0xFFFCCFCF),
+          primary: MyColor.globalGreen0,
+          onPrimary: MyColor.semanticNeutralPlus8,
+          primaryContainer: MyColor.globalGreenPlus3,
+          inversePrimary: MyColor.globalGreen3,
+          tertiary: MyColor.globalBlue3,
+          onTertiary: MyColor.semanticNeutralPlus8,
+          tertiaryContainer: MyColor.globalBluePlus3,
+          secondary: MyColor.semanticNeutral0,
+          onSecondary: MyColor.semanticNeutralPlus1,
+          secondaryContainer: MyColor.semanticNeutralPlus3,
+          onSecondaryContainer: MyColor.semanticNeutral4,
+          error: MyColor.globalRed3,
+          onError: MyColor.semanticNeutralPlus8,
+          errorContainer: MyColor.globalRedPlus3,
           brightness: Brightness.light,
-          background: Color(0xFFFBFCFD),
-          onBackground: Color(0xFF1B242C),
-          surface: Color(0xFFFBFCFD),
-          onSurface: Color(0xFF1B242C),
-          inverseSurface: Color(0xFF7E8B99),
-          surfaceTint: Color(0xFF3062D4),
-          outline: Color(0xFF9EA8B3),
+          background: MyColor.semanticNeutralPlus6,
+          onBackground: MyColor.semanticNeutral4,
+          surface: MyColor.semanticNeutralPlus4,
+          onSurface: MyColor.semanticNeutral4,
+          inverseSurface: MyColor.semanticNeutral4,
+          surfaceTint: MyColor.globalBlue0,
+          outline: MyColor.semanticNeutralPlus2,
         ),
         textTheme: GoogleFonts.publicSansTextTheme(
           const TextTheme().copyWith(
