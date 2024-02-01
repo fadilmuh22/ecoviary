@@ -1,9 +1,12 @@
+import 'package:ecoviary/ui/components/controls/disinfectant_image.dart';
+import 'package:ecoviary/ui/components/controls/light_bulb_image.dart';
+import 'package:ecoviary/ui/components/controls/water_bucket_image.dart';
 import 'package:ecoviary/utils/control_icons.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ecoviary/data/services/realtime_database.dart';
 import 'package:ecoviary/data/models/controls_model.dart';
-import 'package:ecoviary/ui/components/control_item.dart';
+import 'package:ecoviary/ui/components/controls/control_item.dart';
 
 class ControlPage extends StatefulWidget {
   const ControlPage({super.key});
@@ -13,22 +16,34 @@ class ControlPage extends StatefulWidget {
 }
 
 class _ControlPageState extends State<ControlPage>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   late TabController _tabController;
+  late AnimationController _animationController;
 
   @override
   void initState() {
+    super.initState();
     _tabController = TabController(
       length: 3,
       vsync: this,
       animationDuration: const Duration(milliseconds: 150),
     );
     _tabController.addListener(_handleTabSelection);
-    super.initState();
+
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+      reverseDuration: const Duration(milliseconds: 500),
+      lowerBound: 0.0,
+      upperBound: 0.6,
+    );
+
+    _animationController.addListener(() => setState(() {}));
   }
 
   @override
   void dispose() {
+    _animationController.dispose();
     _tabController.dispose();
     super.dispose();
   }
@@ -36,6 +51,14 @@ class _ControlPageState extends State<ControlPage>
   void _handleTabSelection() {
     if (_tabController.indexIsChanging) {
       setState(() {});
+    }
+  }
+
+  void _animateBucket(bool isOn) {
+    if (!isOn) {
+      _animationController.forward(from: 0.0);
+    } else {
+      _animationController.reverse(from: 0.6);
     }
   }
 
@@ -77,7 +100,7 @@ class _ControlPageState extends State<ControlPage>
             color: Theme.of(context).colorScheme.primary,
           ),
           labelColor: Theme.of(context).colorScheme.onPrimary,
-          unselectedLabelColor: Theme.of(context).colorScheme.inverseSurface,
+          unselectedLabelColor: Theme.of(context).colorScheme.onSecondary,
           tabs: const [
             Tab(icon: Icon(ControlIcons.lightbulbOn)),
             Tab(icon: Icon(ControlIcons.sprinklerFire)),
@@ -90,9 +113,11 @@ class _ControlPageState extends State<ControlPage>
             if (snapshot.hasData && snapshot.data!.snapshot.value != null) {
               var control = Controls.fromJson(Map<String, dynamic>.from(
                   snapshot.data!.snapshot.value as Map));
+
               return Padding(
                 padding: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.2,
+                  top: MediaQuery.of(context).size.height * 0.3 -
+                      (kToolbarHeight * 2),
                 ),
                 child: SizedBox(
                   height: MediaQuery.of(context).size.height * 0.6,
@@ -100,9 +125,8 @@ class _ControlPageState extends State<ControlPage>
                     controller: _tabController,
                     children: [
                       ControlItem(
-                        icon: const Icon(
-                          ControlIcons.lightbulbOn,
-                          size: 150,
+                        icon: LightBulbImage(
+                          isOn: control.light ?? false,
                         ),
                         value: control.light ?? false,
                         onChange: (bool value) {
@@ -111,9 +135,8 @@ class _ControlPageState extends State<ControlPage>
                         },
                       ),
                       ControlItem(
-                        icon: const Icon(
-                          ControlIcons.sprinklerFire,
-                          size: 150,
+                        icon: DisinfectantImage(
+                          isOn: control.disinfectant ?? false,
                         ),
                         value: control.disinfectant ?? false,
                         onChange: (bool value) {
@@ -122,12 +145,17 @@ class _ControlPageState extends State<ControlPage>
                         },
                       ),
                       ControlItem(
-                        icon: const Icon(
-                          ControlIcons.cupWater,
-                          size: 150,
+                        icon: WaterBucketImage(
+                          value: (_animationController.status ==
+                                      AnimationStatus.dismissed &&
+                                  _animationController.value == 0 &&
+                                  (control.water ?? false) == true)
+                              ? 0.6
+                              : _animationController.value,
                         ),
                         value: control.water ?? false,
                         onChange: (bool value) {
+                          _animateBucket(!value);
                           _handleControls(
                               context, Controls(water: value).toJson());
                         },

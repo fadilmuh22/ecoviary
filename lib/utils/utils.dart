@@ -107,3 +107,5 @@ String? emptyValidator(String? value) {
   }
   return null;
 }
+
+Size controlImageSize() => const Size(272, 272);

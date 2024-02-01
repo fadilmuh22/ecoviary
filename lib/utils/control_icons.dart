@@ -27,4 +27,6 @@ class ControlIcons {
       IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
   static const IconData sprinklerFire =
       IconData(0xe802, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData silverwareForkKnife =
+      IconData(0xe803, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

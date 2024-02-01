@@ -1,5 +1,9 @@
+import 'package:ecoviary/data/models/automations_model.dart';
+import 'package:ecoviary/data/models/controls_model.dart';
 import 'package:ecoviary/data/providers/form_providers.dart';
+import 'package:ecoviary/ui/components/controls/control_status.dart';
 import 'package:ecoviary/ui/pages/coops_page.dart';
+import 'package:ecoviary/utils/control_icons.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ecoviary/data/models/coops_model.dart';
@@ -7,7 +11,9 @@ import 'package:ecoviary/data/services/realtime_database.dart';
 import 'package:ecoviary/ui/components/monitoring_view.dart';
 import 'package:ecoviary/ui/components/coops/coop_card.dart';
 import 'package:ecoviary/ui/components/coops/coop_dropdown.dart';
+import 'package:flutter_remix/flutter_remix.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
@@ -69,6 +75,66 @@ class HomePage extends ConsumerWidget {
         ),
         const SizedBox(height: 16),
         const MonitoringView(),
+        const SizedBox(height: 16),
+        const Text(
+          'Otomasi',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 16),
+        StreamBuilder(
+          stream: Collections.controls.ref.onValue,
+          builder: (context, snapshot) {
+            if (snapshot.hasData && snapshot.data!.snapshot.value != null) {
+              var controls = Controls.fromJson(Map<String, dynamic>.from(
+                  snapshot.data!.snapshot.value as Map));
+
+              var dateString =
+                  DateFormat('dd MMMM yyyy').format(DateTime.now());
+              return Column(
+                children: [
+                  Row(
+                    children: [
+                      Icon(
+                        FlutterRemix.time_fill,
+                        color: Theme.of(context).colorScheme.outline,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(dateString),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  Wrap(
+                    spacing: 12,
+                    children: [
+                      ControlStatus(
+                        isActive: controls.light!,
+                        icon: ControlIcons.silverwareForkKnife,
+                        title: 'Pemberian Pakan',
+                      ),
+                      ControlStatus(
+                        isActive: controls.water!,
+                        icon: ControlIcons.cupWater,
+                        title: 'Pemberian Minum',
+                      ),
+                      ControlStatus(
+                        isActive: controls.disinfectant!,
+                        icon: ControlIcons.sprinklerFire,
+                        title: 'Disinfectant',
+                      ),
+                    ],
+                  )
+                ],
+              );
+            }
+
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          },
+        ),
         const SizedBox(height: 16),
         const Text(
           'Data Kandang',

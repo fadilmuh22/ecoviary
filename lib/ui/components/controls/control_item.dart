@@ -1,3 +1,4 @@
+import 'package:ecoviary/ui/components/controls/toggle_button.dart';
 import 'package:flutter/material.dart';
 
 class ControlItem extends StatelessWidget {
@@ -20,10 +21,9 @@ class ControlItem extends StatelessWidget {
         const SizedBox(height: 36),
         Transform.scale(
           scale: 1.5,
-          child: Switch(
-            value: value,
-            onChanged: onChange,
-            materialTapTargetSize: MaterialTapTargetSize.padded,
+          child: ToggleButton(
+            isOn: value,
+            onPressed: () => onChange(!value),
           ),
         ),
       ],
