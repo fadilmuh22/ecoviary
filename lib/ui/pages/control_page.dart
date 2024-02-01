@@ -1,3 +1,4 @@
+import 'package:ecoviary/utils/control_icons.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ecoviary/data/services/realtime_database.dart';
@@ -78,9 +79,9 @@ class _ControlPageState extends State<ControlPage>
           labelColor: Theme.of(context).colorScheme.onPrimary,
           unselectedLabelColor: Theme.of(context).colorScheme.inverseSurface,
           tabs: const [
-            Tab(icon: Icon(Icons.lightbulb_rounded)),
-            Tab(icon: Icon(Icons.local_pizza_rounded)),
-            Tab(icon: Icon(Icons.water_drop_rounded)),
+            Tab(icon: Icon(ControlIcons.lightbulbOn)),
+            Tab(icon: Icon(ControlIcons.sprinklerFire)),
+            Tab(icon: Icon(ControlIcons.cupWater)),
           ],
         ),
         StreamBuilder(
@@ -100,7 +101,7 @@ class _ControlPageState extends State<ControlPage>
                     children: [
                       ControlItem(
                         icon: const Icon(
-                          Icons.lightbulb_rounded,
+                          ControlIcons.lightbulbOn,
                           size: 150,
                         ),
                         value: control.light ?? false,
@@ -111,7 +112,7 @@ class _ControlPageState extends State<ControlPage>
                       ),
                       ControlItem(
                         icon: const Icon(
-                          Icons.local_pizza_rounded,
+                          ControlIcons.sprinklerFire,
                           size: 150,
                         ),
                         value: control.disinfectant ?? false,
@@ -122,7 +123,7 @@ class _ControlPageState extends State<ControlPage>
                       ),
                       ControlItem(
                         icon: const Icon(
-                          Icons.water_drop_rounded,
+                          ControlIcons.cupWater,
                           size: 150,
                         ),
                         value: control.water ?? false,

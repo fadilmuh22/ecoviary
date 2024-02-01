@@ -38,6 +38,11 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
+  fonts:
+    - family: ControlIcons
+      fonts:
+        - asset: fonts/ControlIcons.ttf
+
 flutter_native_splash:
   color: "#1D7C4D"
   image: assets/images/logo.png

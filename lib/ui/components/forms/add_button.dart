@@ -20,7 +20,7 @@ class AddButton extends StatelessWidget {
       color: Colors.white,
       iconSize: 16,
       style: IconButton.styleFrom(
-        backgroundColor: Theme.of(context).colorScheme.inverseSurface,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(2),
         ),
