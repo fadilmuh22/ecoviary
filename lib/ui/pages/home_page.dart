@@ -1,19 +1,18 @@
-import 'package:ecoviary/data/models/automations_model.dart';
-import 'package:ecoviary/data/models/controls_model.dart';
-import 'package:ecoviary/data/providers/form_providers.dart';
-import 'package:ecoviary/ui/components/controls/control_status.dart';
-import 'package:ecoviary/ui/pages/coops_page.dart';
-import 'package:ecoviary/utils/control_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:flutter_remix/flutter_remix.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:ecoviary/data/models/coops_model.dart';
 import 'package:ecoviary/data/services/realtime_database.dart';
 import 'package:ecoviary/ui/components/monitoring_view.dart';
 import 'package:ecoviary/ui/components/coops/coop_card.dart';
 import 'package:ecoviary/ui/components/coops/coop_dropdown.dart';
-import 'package:flutter_remix/flutter_remix.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
+import 'package:ecoviary/data/models/controls_model.dart';
+import 'package:ecoviary/data/providers/form_providers.dart';
+import 'package:ecoviary/ui/components/controls/control_status.dart';
+import 'package:ecoviary/ui/pages/coops_page.dart';
+import 'package:ecoviary/utils/control_icons.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
@@ -73,7 +72,7 @@ class HomePage extends ConsumerWidget {
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 12),
         const MonitoringView(),
         const SizedBox(height: 16),
         const Text(
@@ -83,7 +82,7 @@ class HomePage extends ConsumerWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 12),
         StreamBuilder(
           stream: Collections.controls.ref.onValue,
           builder: (context, snapshot) {
@@ -99,6 +98,7 @@ class HomePage extends ConsumerWidget {
                     children: [
                       Icon(
                         FlutterRemix.time_fill,
+                        size: 16,
                         color: Theme.of(context).colorScheme.outline,
                       ),
                       const SizedBox(width: 8),
@@ -106,18 +106,18 @@ class HomePage extends ConsumerWidget {
                     ],
                   ),
                   const SizedBox(height: 12),
-                  Wrap(
-                    spacing: 12,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       ControlStatus(
-                        isActive: controls.light!,
+                        isActive: controls.food!,
                         icon: ControlIcons.silverwareForkKnife,
-                        title: 'Pemberian Pakan',
+                        title: 'Pakan',
                       ),
                       ControlStatus(
                         isActive: controls.water!,
                         icon: ControlIcons.cupWater,
-                        title: 'Pemberian Minum',
+                        title: 'Minum',
                       ),
                       ControlStatus(
                         isActive: controls.disinfectant!,
@@ -143,7 +143,7 @@ class HomePage extends ConsumerWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 12),
         StreamBuilder(
           stream: Collections.coops.ref.onValue,
           builder: (context, snapshot) {
@@ -157,7 +157,7 @@ class HomePage extends ConsumerWidget {
                   Row(
                     children: [
                       Expanded(
-                        child: FilledButton(
+                        child: OutlinedButton(
                           onPressed: () {
                             ref.read(coopFormProvider).setCoop(coop);
                             Navigator.push(

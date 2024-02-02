@@ -130,7 +130,7 @@ class _ControlPageState extends State<ControlPage>
                         ),
                         value: control.light ?? false,
                         onChange: (bool value) {
-                          _handleControls(
+                          return _handleControls(
                               context, Controls(light: value).toJson());
                         },
                       ),
@@ -140,7 +140,7 @@ class _ControlPageState extends State<ControlPage>
                         ),
                         value: control.disinfectant ?? false,
                         onChange: (bool value) {
-                          _handleControls(
+                          return _handleControls(
                               context, Controls(disinfectant: value).toJson());
                         },
                       ),
@@ -156,7 +156,7 @@ class _ControlPageState extends State<ControlPage>
                         value: control.water ?? false,
                         onChange: (bool value) {
                           _animateBucket(!value);
-                          _handleControls(
+                          return _handleControls(
                               context, Controls(water: value).toJson());
                         },
                       ),

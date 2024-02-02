@@ -221,7 +221,7 @@ class _AutomationFormState extends ConsumerState<AutomationForm> {
           onPressed: () {
             _handleSubmit(context);
           },
-          child: const Text('Simpan'),
+          child: const Text('Input'),
         )
       ],
     );

@@ -23,6 +23,8 @@ class CoopFormNotifier extends ChangeNotifier {
 
   var formKey = GlobalKey<FormState>();
 
+  int chickenAge = 0;
+
   final ageController = TextEditingController();
   final henController = TextEditingController();
   final roosterController = TextEditingController();
@@ -38,7 +40,7 @@ class CoopFormNotifier extends ChangeNotifier {
       formKey.currentState!.save();
       Coops data = Coops(
         name: 'Kandang 1',
-        age: int.parse(ageController.text),
+        age: chickenAge,
         totalHen: int.parse(henController.text),
         totalRooster: int.parse(roosterController.text),
         totalChicken: int.parse(totalController.text),

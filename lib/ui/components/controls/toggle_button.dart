@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_remix/flutter_remix.dart';
 
 class ToggleButton extends StatelessWidget {
-  final void Function() onPressed;
+  final void Function()? onPressed;
   final bool isOn;
 
   const ToggleButton({

@@ -52,14 +52,14 @@ class MyApp extends StatelessWidget {
         ),
         textTheme: GoogleFonts.publicSansTextTheme(
           const TextTheme().copyWith(
-            displayLarge: TextStyle(
+            displayLarge: const TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.onBackground,
+              color: MyColor.semanticNeutral4,
             ),
-            titleMedium: TextStyle(
+            titleMedium: const TextStyle(
               fontSize: 10,
-              color: Theme.of(context).colorScheme.inverseSurface,
+              color: MyColor.semanticNeutral4,
             ),
           ),
         ),
@@ -70,19 +70,29 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          style: OutlinedButton.styleFrom(
+            side: const BorderSide(
+              color: MyColor.globalGreen0,
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4),
+            ),
+          ),
+        ),
         inputDecorationTheme: InputDecorationTheme(
           isDense: true,
           contentPadding:
               const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
           enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: Theme.of(context).colorScheme.outline,
+            borderSide: const BorderSide(
+              color: MyColor.semanticNeutralPlus3,
             ),
             borderRadius: BorderRadius.circular(4),
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: Theme.of(context).colorScheme.outline,
+            borderSide: const BorderSide(
+              color: MyColor.semanticNeutralPlus3,
             ),
             borderRadius: BorderRadius.circular(4),
           ),

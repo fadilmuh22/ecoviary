@@ -29,6 +29,7 @@ class _CoopFormState extends ConsumerState<CoopForm> {
   void _handleDaysEnum(DaysEnum? value) {
     if (value == null) return;
     var ageController = ref.read(coopFormProvider).ageController;
+
     setState(() {
       ageController.text =
           chickenAgeToDays(int.parse(ageController.text), _daysEnum, value)
@@ -63,6 +64,8 @@ class _CoopFormState extends ConsumerState<CoopForm> {
   void _fillFields() {
     if (_coop == null) return;
 
+    ref.read(coopFormProvider).chickenAge =
+        chickenAgeToDays(_coop!.age, _daysEnum, DaysEnum.days);
     ref.read(coopFormProvider).ageController.text = _coop!.age.toString();
     ref.read(coopFormProvider).henController.text = _coop!.totalHen.toString();
     ref.read(coopFormProvider).roosterController.text =
@@ -77,9 +80,15 @@ class _CoopFormState extends ConsumerState<CoopForm> {
 
     _formKey = ref.read(coopFormProvider).formKey;
 
+    var ageController = ref.read(coopFormProvider).ageController;
     var henController = ref.read(coopFormProvider).henController;
     var roosterController = ref.read(coopFormProvider).roosterController;
     var totalController = ref.read(coopFormProvider).totalController;
+
+    ageController.addListener(() {
+      ref.read(coopFormProvider).chickenAge = chickenAgeToDays(
+          int.parse(ageController.text), _daysEnum, DaysEnum.days);
+    });
 
     henController.addListener(() {
       totalController.text =
@@ -260,10 +269,17 @@ class _CoopFormState extends ConsumerState<CoopForm> {
           const SizedBox(height: 16),
           Row(
             children: [
-              const Flexible(
+              Flexible(
                 flex: 8,
                 child: Row(children: [
-                  Text('Jumlah Data Terhitung'),
+                  Text(
+                    'Jumlah Data Terhitung',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Theme.of(context).colorScheme.outline,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
                 ]),
               ),
               Flexible(
@@ -273,7 +289,7 @@ class _CoopFormState extends ConsumerState<CoopForm> {
                   readOnly: true,
                   style: TextStyle(
                     fontSize: 12,
-                    color: Theme.of(context).colorScheme.primary,
+                    color: Theme.of(context).colorScheme.outline,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

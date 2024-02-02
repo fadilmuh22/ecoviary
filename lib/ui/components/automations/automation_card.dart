@@ -22,7 +22,7 @@ class AutomationCard extends StatelessWidget {
     Collections.automations.ref.child(automation.id).remove().then((value) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Otomasideleted'),
+          content: Text('Otomasi dihapus'),
         ),
       );
     }).catchError(
