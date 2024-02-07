@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:ecoviary/ui/components/controls/disinfectant_image.dart';
 import 'package:ecoviary/ui/components/controls/light_bulb_image.dart';
 import 'package:ecoviary/ui/components/controls/water_bucket_image.dart';
@@ -17,6 +19,7 @@ class ControlPage extends StatefulWidget {
 
 class _ControlPageState extends State<ControlPage>
     with TickerProviderStateMixin {
+  Timer? _controlTimer;
   late TabController _tabController;
   late AnimationController _animationController;
 
@@ -62,12 +65,51 @@ class _ControlPageState extends State<ControlPage>
     }
   }
 
-  Future<void> _handleControls(
-      BuildContext context, Map<String, dynamic> valueToUpdate) async {
+  Future<void> _handleControls(BuildContext context, Controls current,
+      Map<String, dynamic> valueToUpdate) async {
     try {
+      var isNotLightRunning =
+          (current.disinfectant != null && current.disinfectant == true) ||
+              (current.water != null && current.water == true) ||
+              (current.food != null && current.food == true);
+      var isUpdateNotLight = (valueToUpdate.containsKey('disinfectant') ||
+              valueToUpdate.containsKey('water') ||
+              valueToUpdate.containsKey('food')) &&
+          valueToUpdate.values.any((element) => element == true);
+
+      if (isNotLightRunning && isUpdateNotLight) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Tidak bisa mengubah kontrol saat sedang berjalan'),
+        ));
+        return;
+      }
+
+      if (_controlTimer != null) {
+        _controlTimer!.cancel();
+      }
+
       await Collections.controls.ref.update(valueToUpdate
         ..removeWhere(
             (dynamic key, dynamic value) => key == null || value == null));
+
+      if (valueToUpdate.values.first == true) {
+        _controlTimer = Timer(const Duration(seconds: 30), () {
+          valueToUpdate.updateAll((key, value) => false);
+          Collections.controls.ref
+              .update(valueToUpdate
+                ..removeWhere((dynamic key, dynamic value) =>
+                    key == null || value == null))
+              .then((value) {
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              content: Text('Kontrol berhasil dijalankan'),
+            ));
+          }).catchError((error) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(error.toString()),
+            ));
+          });
+        });
+      }
     } catch (e) {
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -130,8 +172,8 @@ class _ControlPageState extends State<ControlPage>
                         ),
                         value: control.light ?? false,
                         onChange: (bool value) {
-                          return _handleControls(
-                              context, Controls(light: value).toJson());
+                          return _handleControls(context, control,
+                              Controls(light: value).toJson());
                         },
                       ),
                       ControlItem(
@@ -140,8 +182,8 @@ class _ControlPageState extends State<ControlPage>
                         ),
                         value: control.disinfectant ?? false,
                         onChange: (bool value) {
-                          return _handleControls(
-                              context, Controls(disinfectant: value).toJson());
+                          return _handleControls(context, control,
+                              Controls(disinfectant: value).toJson());
                         },
                       ),
                       ControlItem(
@@ -156,8 +198,8 @@ class _ControlPageState extends State<ControlPage>
                         value: control.water ?? false,
                         onChange: (bool value) {
                           _animateBucket(!value);
-                          return _handleControls(
-                              context, Controls(water: value).toJson());
+                          return _handleControls(context, control,
+                              Controls(water: value).toJson());
                         },
                       ),
                     ],
