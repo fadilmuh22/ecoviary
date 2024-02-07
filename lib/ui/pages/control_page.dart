@@ -73,18 +73,20 @@ class _ControlPageState extends State<ControlPage>
               (current.water != null && current.water == true) ||
               (current.food != null && current.food == true);
       var isUpdateNotLight = (valueToUpdate.containsKey('disinfectant') ||
-              valueToUpdate.containsKey('water') ||
-              valueToUpdate.containsKey('food')) &&
-          valueToUpdate.values.any((element) => element == true);
+          valueToUpdate.containsKey('water') ||
+          valueToUpdate.containsKey('food'));
+      var isValueTrue = valueToUpdate.values.any((element) => element == true);
 
-      if (isNotLightRunning && isUpdateNotLight) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text('Tidak bisa mengubah kontrol saat sedang berjalan'),
+      if (!isUpdateNotLight ||
+          (isNotLightRunning && isUpdateNotLight && isValueTrue)) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+              'Tidak bisa mengubah kontrol saat sedang berjalan $isUpdateNotLight $isNotLightRunning'),
         ));
-        return;
+        return Future.error(Exception('Kontrol tidak bisa berbarengan'));
       }
 
-      if (_controlTimer != null) {
+      if (_controlTimer != null && _controlTimer!.isActive) {
         _controlTimer!.cancel();
       }
 
@@ -197,9 +199,9 @@ class _ControlPageState extends State<ControlPage>
                         ),
                         value: control.water ?? false,
                         onChange: (bool value) {
-                          _animateBucket(!value);
                           return _handleControls(context, control,
-                              Controls(water: value).toJson());
+                                  Controls(water: value).toJson())
+                              .then((_) => _animateBucket(!value));
                         },
                       ),
                     ],
