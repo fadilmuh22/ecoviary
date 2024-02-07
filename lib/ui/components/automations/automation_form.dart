@@ -68,15 +68,13 @@ class _AutomationFormState extends ConsumerState<AutomationForm> {
 
   Future<void> _displayDatePicker(BuildContext context) async {
     final DateTime initialDate = DateTime.now();
-    final firstDayOfWeek =
-        initialDate.subtract(Duration(days: initialDate.weekday - 1));
     final lastDayOfWeek = initialDate
         .add(Duration(days: DateTime.daysPerWeek - initialDate.weekday));
 
     var date = await showDatePicker(
       context: context,
       initialDate: initialDate,
-      firstDate: firstDayOfWeek,
+      firstDate: initialDate,
       lastDate: lastDayOfWeek,
     );
 
