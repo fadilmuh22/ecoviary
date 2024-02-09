@@ -72,16 +72,12 @@ class _ControlPageState extends State<ControlPage>
           (current.disinfectant != null && current.disinfectant == true) ||
               (current.water != null && current.water == true) ||
               (current.food != null && current.food == true);
-      var isUpdateNotLight = (valueToUpdate.containsKey('disinfectant') ||
-          valueToUpdate.containsKey('water') ||
-          valueToUpdate.containsKey('food'));
-      var isValueTrue = valueToUpdate.values.any((element) => element == true);
+      var isUpdateNotLight = valueToUpdate.keys
+          .any((key) => key != 'light' && valueToUpdate[key] == true);
 
-      if (!isUpdateNotLight ||
-          (isNotLightRunning && isUpdateNotLight && isValueTrue)) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(
-              'Tidak bisa mengubah kontrol saat sedang berjalan $isUpdateNotLight $isNotLightRunning'),
+      if (isNotLightRunning && isUpdateNotLight) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Tidak bisa mengubah kontrol saat sedang berjalan '),
         ));
         return Future.error(Exception('Kontrol tidak bisa berbarengan'));
       }

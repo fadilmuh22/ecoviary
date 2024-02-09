@@ -23,21 +23,23 @@ class _ControlItemState extends State<ControlItem> {
   void handlePress() async {
     setState(() {
       isLoading = true;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Sedang memproses...'),
-        ),
-      );
     });
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Sedang memproses...'),
+      ),
+    );
 
-    await widget.onChange(!widget.value);
-
-    setState(() {
-      isLoading = false;
+    try {
+      await widget.onChange(!widget.value);
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
       Future.delayed(const Duration(milliseconds: 500), () {
         ScaffoldMessenger.of(context).hideCurrentSnackBar();
       });
-    });
+    }
   }
 
   @override
