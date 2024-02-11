@@ -28,7 +28,7 @@ class _AutomationFormState extends ConsumerState<AutomationForm> {
   List<TimeOfDay> _foodTimeList = [];
   List<TimeOfDay> _waterTimeList = [];
   List<bool> _weekdayValues = List.filled(7, false);
-  DateTime? _selectedDate;
+  DateTime? _selectedDate = DateTime.now();
 
   @override
   void initState() {
@@ -68,8 +68,11 @@ class _AutomationFormState extends ConsumerState<AutomationForm> {
 
   Future<void> _displayDatePicker(BuildContext context) async {
     final DateTime initialDate = DateTime.now();
-    final lastDayOfWeek = initialDate
-        .add(Duration(days: DateTime.daysPerWeek - initialDate.weekday));
+    final lastDayOfWeek = initialDate.add(Duration(
+        days: DateTime.daysPerWeek -
+            (initialDate.weekday == DateTime.sunday
+                ? 0
+                : initialDate.weekday)));
 
     var date = await showDatePicker(
       context: context,
@@ -109,17 +112,7 @@ class _AutomationFormState extends ConsumerState<AutomationForm> {
       activated: true,
     );
 
-    Future<void>? automationFuture;
-
-    if (_automation != null) {
-      automationFuture =
-          Collections.automations.ref.child(data.id).update(data.toJson());
-    } else {
-      automationFuture = Collections.automations.ref.push().set(data.toJson());
-    }
-
-    automationFuture.then((value) {
-      // _clearFields();
+    Collections.automations.ref.update(data.toJson()).then((value) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Otomasi berhasil diubah'),
