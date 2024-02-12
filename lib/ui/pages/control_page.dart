@@ -90,8 +90,8 @@ class _ControlPageState extends State<ControlPage>
         ..removeWhere(
             (dynamic key, dynamic value) => key == null || value == null));
 
-      if (valueToUpdate.values.first == true) {
-        _controlTimer = Timer(const Duration(seconds: 30), () {
+      if (isUpdateNotLight) {
+        _controlTimer = Timer(const Duration(seconds: 15), () {
           valueToUpdate.updateAll((key, value) => false);
           Collections.controls.ref
               .update(valueToUpdate
